@@ -82,9 +82,9 @@ namespace DogGo.Repositories
                         n.Name AS NeighborhoodName, n.Id AS NeighborhoodId,
                         d.Name AS DogName, d.Breed, d.Id AS DogId
                         FROM Owner o
-                        JOIN Neighborhood n
+                        LEFT JOIN Neighborhood n
                         ON o.NeighborhoodId = n.Id
-                        JOIN Dog d 
+                        LEFT JOIN Dog d 
                         ON d.OwnerId = o.Id
                         WHERE o.Id = @OwnerId
                     ";
