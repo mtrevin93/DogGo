@@ -32,7 +32,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, n.Id AS NeighborhoodId
+                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, n.Id AS NeighborhoodId n.[Name] AS NeighborhoodName
                         FROM Owner o
                         JOIN Neighborhood n
                         ON o.NeighborhoodId = n.Id
@@ -55,7 +55,8 @@ namespace DogGo.Repositories
                         {
                             Neighborhood neighborhood = new Neighborhood
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("NeighborhoodId"))
+                                Id = reader.GetInt32(reader.GetOrdinal("NeighborhoodId")),
+                                Name = reader.GetString(reader.GetOrdinal("NeighborhoodName"))
                             };
                             owner.Neighborhood = neighborhood;
                         }
@@ -77,7 +78,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, n.Id AS NeighborhoodId
+                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, n.Name AS NeighborhoodName, n.Id AS NeighborhoodId
                         FROM Owner o
                         JOIN Neighborhood n
                         ON o.NeighborhoodId = n.Id
@@ -102,7 +103,8 @@ namespace DogGo.Repositories
                             {
                                 Neighborhood neighborhood = new Neighborhood
                                 {
-                                    Id = reader.GetInt32(reader.GetOrdinal("NeighborhoodId"))
+                                    Id = reader.GetInt32(reader.GetOrdinal("NeighborhoodId")),
+                                    Name = reader.GetString(reader.GetOrdinal("NeighborhoodName"))
                                 };
                                 owner.Neighborhood = neighborhood;
                             }
