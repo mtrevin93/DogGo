@@ -32,7 +32,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, n.Id AS NeighborhoodId n.[Name] AS NeighborhoodName
+                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, n.Id AS NeighborhoodId, n.[Name] AS NeighborhoodName
                         FROM Owner o
                         JOIN Neighborhood n
                         ON o.NeighborhoodId = n.Id
@@ -78,10 +78,14 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, n.Name AS NeighborhoodName, n.Id AS NeighborhoodId
+                        SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, 
+                        n.Name AS NeighborhoodName, n.Id AS NeighborhoodId,
+                        d.Name AS DogName, d.Breed, d.Id AS DogId
                         FROM Owner o
                         JOIN Neighborhood n
                         ON o.NeighborhoodId = n.Id
+                        JOIN Dog d 
+                        ON d.OwnerId = o.Id
                         WHERE o.Id = @OwnerId
                     ";
 
@@ -89,16 +93,22 @@ namespace DogGo.Repositories
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        Owner owner = null;
+                        while (reader.Read())
                         {
-                            Owner owner = new Owner
+                            if (owner == null)
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("OwnerId")),
-                                Name = reader.GetString(reader.GetOrdinal("Name")),
-                                Email = reader.GetString(reader.GetOrdinal("Email")),
-                                Address = reader.GetString(reader.GetOrdinal("Address")),
-                                Phone = reader.GetString(reader.GetOrdinal("Phone"))
-                            };
+                                owner = new Owner
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                                    Address = reader.GetString(reader.GetOrdinal("Address")),
+                                    Phone = reader.GetString(reader.GetOrdinal("Phone")),
+                                    Dogs = new List<Dog>()
+                                };
+                            }
+
                             if (!reader.IsDBNull(reader.GetOrdinal("NeighborhoodId")))
                             {
                                 Neighborhood neighborhood = new Neighborhood
@@ -108,12 +118,17 @@ namespace DogGo.Repositories
                                 };
                                 owner.Neighborhood = neighborhood;
                             }
+                            if (!reader.IsDBNull(reader.GetOrdinal("DogId")))
+                            {
+                                owner.Dogs.Add(new Dog
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("DogId")),
+                                    Name = reader.GetString(reader.GetOrdinal("DogName")),
+                                    Breed = reader.GetString(reader.GetOrdinal("Breed"))
+                                });
+                            }
+                        }
                         return owner;
-                        }
-                        else
-                        {
-                            return null;
-                        }
                     }
                 }
             }
