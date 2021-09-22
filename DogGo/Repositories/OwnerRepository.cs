@@ -77,6 +77,7 @@ namespace DogGo.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+                    //Left join because dogs might return as null
                     cmd.CommandText = @"
                         SELECT o.Id AS OwnerId, o.[Name], o.Email, o.[Address], o.Phone, 
                         n.Name AS NeighborhoodName, n.Id AS NeighborhoodId,
@@ -179,7 +180,7 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    INSERT INTO Owner ([Name], Email, Phone, Address, NeighborhoodId)
+                    INSERT INTO Owner (Name, Email, Phone, Address, NeighborhoodId)
                     OUTPUT INSERTED.ID
                     VALUES (@name, @email, @phoneNumber, @address, @neighborhoodId);
                 ";
@@ -188,7 +189,7 @@ namespace DogGo.Repositories
                     cmd.Parameters.AddWithValue("@email", owner.Email);
                     cmd.Parameters.AddWithValue("@phoneNumber", owner.Phone);
                     cmd.Parameters.AddWithValue("@address", owner.Address);
-                    cmd.Parameters.AddWithValue("@neighborhoodId", owner.Neighborhood.Id);
+                    cmd.Parameters.AddWithValue("@neighborhoodId", owner.NeighborhoodId);
 
                     int id = (int)cmd.ExecuteScalar();
 
