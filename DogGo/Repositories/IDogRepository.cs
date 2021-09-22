@@ -1,87 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DogGo.Models;
 
 namespace DogGo.Repositories
 {
-    public class IDogRepository : Controller
+    public interface IDogRepository
     {
-        // GET: IDogRepository
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: IDogRepository/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: IDogRepository/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: IDogRepository/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: IDogRepository/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: IDogRepository/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: IDogRepository/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: IDogRepository/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        public List<Dog> Get();
+        public Dog Get(int id);
+        public void Add(Dog dog);
+        public void Update(Dog dog);
+        public void Delete(int dogId);
     }
 }

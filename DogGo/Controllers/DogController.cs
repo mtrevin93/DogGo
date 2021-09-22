@@ -9,25 +9,28 @@ using DogGo.Models;
 
 namespace DogGo.Controllers
 {
-    public class DogsControllers : Controller
+    public class DogController : Controller
     {
         private readonly IDogRepository _dogRepo;
 
-        public DogsControllers(IDogRepository dogRepository)
+        public DogController(IDogRepository dogRepository)
         {
             _dogRepo = dogRepository;
         }
-        // GET: DogsControllers
+        // GET: DogController
         public ActionResult Index()
         {
             List<Dog> dogs = _dogRepo.Get();
-            return View();
+
+            return View(dogs);
         }
 
         // GET: DogsControllers/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Dog dog = _dogRepo.Get(id);
+
+            return View(dog);
         }
 
         // GET: DogsControllers/Create
