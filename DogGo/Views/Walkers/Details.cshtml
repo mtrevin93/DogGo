@@ -12,7 +12,7 @@
         <dd class="col-sm-4">
             <img class="img-rounded" src="@Model.Walker.ImageUrl" alt="avatar" />
         </dd>
-        <dd class ="col-sm-6">
+        <dd class ="col-sm-10">
             <dl class="row">
             @Html.DisplayNameFor(model => model.Walker.Name)
             @Html.DisplayFor(model => model.Walker.Name)
@@ -51,6 +51,16 @@
               </dd>
     </dl>
             }
+</div>
+<div>
+    <dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Walker.TotalTimeWalked)
+    </dt>
+    <dd class="col-sm-4">
+        @Html.DisplayFor(model => model.Walker.TotalTimeWalked)
+    </dd>
+    </dl>
 </div>
 
 <div>

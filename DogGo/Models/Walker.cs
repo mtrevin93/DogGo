@@ -15,5 +15,17 @@ namespace DogGo.Models
 
         public Owner Client { get; set; }
         public List <Walk> Walks { get; set; }
+        public string TotalTimeWalked
+        {
+            get
+            {
+                int secondsWalked = 0;
+                foreach(Walk walk in Walks)
+                {
+                    secondsWalked += walk.Duration;
+                }
+                return TimeSpan.FromSeconds(secondsWalked).ToString();
+            }
+        }
     }
 }
