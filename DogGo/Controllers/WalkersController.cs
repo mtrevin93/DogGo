@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DogGo.Repositories;
 using DogGo.Models;
+using DogGo.Models.ViewModels;
 
 namespace DogGo.Controllers
 {
@@ -37,8 +38,11 @@ namespace DogGo.Controllers
             {
                 return NotFound();
             }
-
-            return View(walker);
+            WalkerDetailsViewModel vm = new WalkerDetailsViewModel
+            {
+                Walker = walker
+            };
+            return View(vm);
         }
 
         // GET: WalkersController/Create

@@ -92,7 +92,8 @@ namespace DogGo.Controllers
 
             OwnerFormViewModel vm = new OwnerFormViewModel()
             {
-                Owner = _ownerRepo.Get(id)
+                Owner = _ownerRepo.Get(id),
+                Neighborhoods = neighborhoods
             };
             if (vm.Owner == null)
             {

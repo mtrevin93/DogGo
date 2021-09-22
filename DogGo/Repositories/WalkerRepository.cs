@@ -66,33 +66,52 @@ namespace DogGo.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, [Name], ImageUrl, NeighborhoodId
-                        FROM Walker
-                        WHERE Id = @id
+                        SELECT wr.Id, wr.[Name] AS WalkerName, wr.ImageUrl, wr.NeighborhoodId,
+                        n.Name AS NeighborhoodName,
+                        w.Date, w.Duration,
+                        o.Name AS OwnerName
+                        FROM Walker wr
+                        LEFT JOIN Neighborhood n ON wr.NeighborhoodId = n.Id
+                        LEFT JOIN Walks w ON w.WalkerId = wr.Id
+                        LEFT JOIN Dog d on w.DogId = d.Id
+                        LEFT JOIN Owner o on d.OwnerId = o.Id
+                        WHERE wr.Id = @id
                     ";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (reader.Read())
+                    Walker walker = null;
+                    while (reader.Read())
                     {
-                        Walker walker = new Walker
+                        if (walker == null)
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
-                            NeighborhoodId = reader.GetInt32(reader.GetOrdinal("NeighborhoodId"))
+                            walker = new Walker
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Name = reader.GetString(reader.GetOrdinal("WalkerName")),
+                                ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl")),
+                                Neighborhood = new Neighborhood { Name = reader.GetString(reader.GetOrdinal("NeighborhoodName")) },
+                                Walks = new List<Walk>()
+                            };
                         };
 
-                        reader.Close();
-                        return walker;
-                    }
-                    else
-                    {
-                        reader.Close();
-                        return null;
-                    }
+                        if (!reader.IsDBNull(reader.GetOrdinal("Date")))
+                        {
+                            Walk walk = new Walk
+                            {
+                                Datetime = reader.GetDateTime(reader.GetOrdinal("Date")),
+                                Duration = reader.GetInt32(reader.GetOrdinal("Duration")),
+                                Client = new Owner { Name = reader.GetString(reader.GetOrdinal("OwnerName")) }
+                            };
+                            walker.Walks.Add(walk);
+                        }
+                            
+
+                    };
+                    reader.Close();
+                    return walker;
                 }
             }
         }
