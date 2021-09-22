@@ -42,57 +42,72 @@ namespace DogGo.Controllers
         // POST: DogsControllers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Dog dog)
         {
             try
             {
+                _dogRepo.Add(dog);
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(dog);
             }
         }
 
         // GET: DogsControllers/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Dog dog = _dogRepo.Get(id);
+
+            if (dog == null)
+            {
+                return NotFound();
+            }
+
+            return View(dog);
         }
 
         // POST: DogsControllers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Dog dog)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            //try
+            //{
+            _dogRepo.Update(dog);
+
+            return RedirectToAction("Index");
+            //}
+            //catch (Exception ex)
+            //{
+            //    return View(dog);
+            //}
         }
 
         // GET: DogsControllers/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Dog dog = _dogRepo.Get(id);
+
+            return View(dog);
         }
 
         // POST: DogsControllers/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Dog dog)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _dogRepo.Delete(id);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(dog);
             }
         }
     }
