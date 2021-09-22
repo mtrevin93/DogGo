@@ -4,30 +4,55 @@
     ViewData["Title"] = "Walker Profile";
 }
 
-<h1>Details</h1>
+<h1>Walker Profile</h1>
 
 <div>
     <hr />
-    <dl class="column">
+    <dl class="row">
         <dd class="col-sm-4">
             <img class="img-rounded" src="@Model.Walker.ImageUrl" alt="avatar" />
         </dd>
-    </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
+        <dd class ="col-sm-6">
+            <dl class="row">
             @Html.DisplayNameFor(model => model.Walker.Name)
-        </dt>
-        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Walker.Name)
-        </dd>
-        <dt class = "col-sm-2">
+            </dl>
+            <dl class="row">
             @Html.DisplayNameFor(model => model.Walker.Neighborhood.Name)
-        </dt>
-        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Walker.Neighborhood.Name)
+            </dl>
         </dd>
     </dl>
 </div>
+
+<h2>Recent Walks</h2>
+
+<div>
+        @foreach (Walk walk in Model.Walker.Walks) {
+    <dl class="row">
+            <dd/>
+            <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => walk.Datetime)
+            </dt>
+            <dd class="col-sm-4">
+                    @Html.DisplayFor(model => walk.Datetime)
+             </dd>
+             <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => walk.Client.Name)
+             </dt>
+             <dd class="col-sm-4">
+                    @Html.DisplayFor(model => walk.Client.Name)
+              </dd>
+                                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => walk.DurationInMinutes)
+              </dt>
+              <dd class="col-sm-4">
+                    @Html.DisplayFor(model => walk.DurationInMinutes)
+              </dd>
+    </dl>
+            }
+</div>
+
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Walker.Id }) |
     <a asp-action="Index">Back to List</a>

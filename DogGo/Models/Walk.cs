@@ -9,6 +9,10 @@ namespace DogGo.Models
     {
         public DateTime Datetime { get; set; }
         public int Duration { get; set; }
+        public int DurationInMinutes
+        {
+            get { return Duration / 60; }
+        }
         public Owner Client { get; set; }
     }
 }
