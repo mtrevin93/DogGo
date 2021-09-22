@@ -141,17 +141,13 @@ namespace DogGo.Repositories
                                       UPDATE Dog
                                       SET [Name] = @name,
                                       Breed = @breed,
-                                      OwnerId = @ownerId,
-                                      ImageUrl = @imageUrl,
-                                      Notes = @notes
+                                      OwnerId = @ownerId
                     WHERE Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", dog.Id);
                     cmd.Parameters.AddWithValue("@name", dog.Name);
                     cmd.Parameters.AddWithValue("@breed", dog.Breed);
-                    cmd.Parameters.AddWithValue("@imageUrl", dog.ImageUrl);
                     cmd.Parameters.AddWithValue("@ownerId", dog.Owner.Id);
-                    cmd.Parameters.AddWithValue("@notes", dog.Notes);
 
                     cmd.ExecuteNonQuery();
                 }
