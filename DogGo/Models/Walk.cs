@@ -20,6 +20,5 @@ namespace DogGo.Models
             get { return DurationInMinutes * 60; }
         }
         public int WalkerId { get; set; }
-        public int[] DogIds { get; set; }
     }
 }

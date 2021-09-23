@@ -24,7 +24,7 @@ namespace DogGo.Repositories
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
         }
-        public void Add(Walk walk, Dog dog, Walker walker )
+        public void Add(Walk walk, int dogId )
         {
             using (SqlConnection conn = Connection)
             {
@@ -36,8 +36,8 @@ namespace DogGo.Repositories
 
                     cmd.Parameters.AddWithValue("@date", walk.Datetime);
                     cmd.Parameters.AddWithValue("@duration", walk.DurationInSeconds);
-                    cmd.Parameters.AddWithValue("@walkerId", walker.Id);
-                    cmd.Parameters.AddWithValue("@dogId", dog.Id);
+                    cmd.Parameters.AddWithValue("@walkerId", walk.WalkerId);
+                    cmd.Parameters.AddWithValue("@dogId", dogId);
 
                     cmd.ExecuteNonQuery();
                 }

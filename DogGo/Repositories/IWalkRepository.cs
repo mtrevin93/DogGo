@@ -8,6 +8,6 @@ namespace DogGo.Repositories
 {
     public interface IWalkRepository
     {
-        public void Add(Walk walk, Dog dog, Walker walker); 
+        public void Add(Walk walk, int dogId); 
     }
 }

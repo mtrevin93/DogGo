@@ -23,8 +23,8 @@
                 <span asp-validation-for="Walk.DurationInMinutes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Walkers" class="control-label"></label>
-                <select asp-for="Walkers" class="form-control">
+                <label class="control-label">Walker</label>
+                <select asp-for="Walk.WalkerId" class="form-control">
                     @foreach (Walker walker in Model.Walkers)
                     {
                         <option value="@walker.Id">@walker.Name</option>
@@ -33,15 +33,16 @@
                 <span asp-validation-for="Walk.WalkerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Dogs" class="control-label"></label>
-                <select id="multiple" asp-for="Walk.DogIds" multiple ="multiple"class="selectpicker form-control">
+                <label class="control-label">Dogs</label>
+                <select multiple asp-for="SelectedDogIds" class="form-control">
                     @foreach (Dog dog in Model.Dogs)
                     {
                         <option value="@dog.Id">@dog.Name</option>
                     }
                 </select>
-                <span asp-validation-for="Walk.DogIds" class="text-danger"></span>
+                <span asp-validation-for="SelectedDogIds" class="text-danger"></span>
             </div>
+
             <div class="form-group">
 
 
