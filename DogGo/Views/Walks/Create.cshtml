@@ -18,17 +18,33 @@
                 <span asp-validation-for="Walk.Datetime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Walk.Duration" class="control-label"></label>
-                <input asp-for="Walk.Duration" class="form-control" />
-                <span asp-validation-for="Walk.Duration" class="text-danger"></span>
+                <label asp-for="Walk.DurationInMinutes" class="control-label"></label>
+                <input asp-for="Walk.DurationInMinutes" class="form-control" />
+                <span asp-validation-for="Walk.DurationInMinutes" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                <label asp-for="Dogs" class="control-label"></label>
-                <input asp-for="Dogs" class="form-control" />
-                <span asp-validation-for="Dogs" class="text-danger"></span>
-            </div>*@
-
             <div class="form-group">
+                <label asp-for="Walkers" class="control-label"></label>
+                <select asp-for="Walkers" class="form-control">
+                    @foreach (Walker walker in Model.Walkers)
+                    {
+                        <option value="@walker.Id">@walker.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Walk.WalkerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dogs" class="control-label"></label>
+                <select id="multiple" asp-for="Walk.DogIds" multiple ="multiple"class="selectpicker form-control">
+                    @foreach (Dog dog in Model.Dogs)
+                    {
+                        <option value="@dog.Id">@dog.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Walk.DogIds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

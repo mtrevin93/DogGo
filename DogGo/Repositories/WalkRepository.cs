@@ -35,7 +35,7 @@ namespace DogGo.Repositories
                                         VALUES (@date, @duration, @walkerId, @dogId);";
 
                     cmd.Parameters.AddWithValue("@date", walk.Datetime);
-                    cmd.Parameters.AddWithValue("@duration", walk.Duration);
+                    cmd.Parameters.AddWithValue("@duration", walk.DurationInSeconds);
                     cmd.Parameters.AddWithValue("@walkerId", walker.Id);
                     cmd.Parameters.AddWithValue("@dogId", dog.Id);
 

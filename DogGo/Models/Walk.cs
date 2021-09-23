@@ -12,7 +12,14 @@ namespace DogGo.Models
         public int DurationInMinutes
         {
             get { return Duration / 60; }
+            set { }
         }
         public Owner Client { get; set; }
+        public int DurationInSeconds
+        {
+            get { return DurationInMinutes * 60; }
+        }
+        public int WalkerId { get; set; }
+        public int[] DogIds { get; set; }
     }
 }
