@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DogGo.Repositories;
 using DogGo.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DogGo.Controllers
 {
@@ -19,6 +20,7 @@ namespace DogGo.Controllers
             _dogRepo = dogRepository;
         }
         // GET: DogController
+        [Authorize]
         public ActionResult Index()
         {
             int ownerId = GetCurrentUserId();
@@ -37,9 +39,12 @@ namespace DogGo.Controllers
         }
 
         // GET: DogsControllers/Create
+        [Authorize]
         public ActionResult Create()
         {
-            return View();
+            Dog dog = new Dog();
+
+            return View(dog);
         }
 
         // POST: DogsControllers/Create
@@ -49,6 +54,8 @@ namespace DogGo.Controllers
         {
             try
             {
+                dog.OwnerId = GetCurrentUserId();
+
                 _dogRepo.Add(dog);
 
                 return RedirectToAction(nameof(Index));
