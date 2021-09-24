@@ -16,5 +16,15 @@ namespace DogGo.Models
             get { return DurationInMinutes * 60; }
         }
         public int WalkerId { get; set; }
+        public Walker Walker { get; set; }
+        public Dog Dog { get; set; }
+
+        public int ConvertDurationToMin
+        {
+            get
+            {
+                return Duration / 60;
+            }
+        }
     }
 }
