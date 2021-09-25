@@ -83,21 +83,26 @@ namespace DogGo.Controllers
         }
 
         // POST: DogsControllers/Edit/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Dog dog)
         {
-            try
+            if (dog.OwnerId == GetCurrentUserId())
             {
-                _dogRepo.Update(dog);
+                try
+                {
+                    _dogRepo.Update(dog);
+                    return RedirectToAction("Index");
+                }
 
-            return RedirectToAction("Index");
+                catch (Exception ex)
+                {
+                    return View(dog);
+                }
+            }
+            else return StatusCode(403);
         }
-            catch (Exception ex)
-            {
-                return View(dog);
-    }
-}
 
         // GET: DogsControllers/Delete/5
         [Authorize]
@@ -116,20 +121,25 @@ namespace DogGo.Controllers
         }
 
         // POST: DogsControllers/Delete/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Dog dog)
         {
-            try
+            if (dog.OwnerId == GetCurrentUserId())
             {
-                _dogRepo.Delete(id);
+                try
+                {
+                    _dogRepo.Delete(id);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return View(dog);
+                }
             }
-            catch (Exception ex)
-            {
-                return View(dog);
-            }
+            else return StatusCode(403);
         }
         private int GetCurrentUserId()
         {
