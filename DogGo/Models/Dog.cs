@@ -14,8 +14,10 @@ namespace DogGo.Models
         [Required]
         public string Breed { get; set; }
         public Owner Owner { get; set; }
+        [Required]
         public String Notes { get; set; }
         [DisplayName("Image URL")]
+        [Required]
         public string ImageUrl { get; set; }
         [DisplayName("Owner")]
         [Required]

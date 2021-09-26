@@ -189,5 +189,24 @@ namespace DogGo.Repositories
                 }
             }
         }
+        public void Add (Walker walker)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                      INSERT INTO Walker (Name, ImageUrl, NeighborhoodId)
+                                      Values (@name, @imageUrl, @neighborhoodId);";
+
+                    cmd.Parameters.AddWithValue("@name", walker.Name);
+                    cmd.Parameters.AddWithValue("@imageUrl", walker.ImageUrl);
+                    cmd.Parameters.AddWithValue("@neighborhoodId", walker.NeighborhoodId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

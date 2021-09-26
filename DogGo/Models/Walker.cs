@@ -27,12 +27,21 @@ namespace DogGo.Models
             get
             {
                 int secondsWalked = 0;
+                try
+            {
                 foreach(Walk walk in Walks)
                 {
                     secondsWalked += walk.Duration;
                 }
                 return TimeSpan.FromSeconds(secondsWalked).ToString();
             }
+            catch(Exception ex)
+            {
+                return "0";
+            }
+
+            }
+
+            }
         }
     }
-}
